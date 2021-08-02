@@ -1,7 +1,14 @@
+import React from 'react'
+import Header from './components/Header'
+import Footer from './components/footer'
+import './bootstrap.min.css'
+
 function App() {
   return (
-    <> 
-    <h1>Hello Welcome to The GoodBuy!</h1>
+    <>
+      <Header/>
+      <h1>Hello Welcome to The GoodBuy!</h1>
+      <Footer/>  
     </>
   );
 }
