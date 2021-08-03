@@ -1,4 +1,5 @@
 import React from 'react'
+import { Container } from 'react-bootstrap'
 import Header from './components/Header'
 import Footer from './components/footer'
 import './bootstrap.min.css'
@@ -7,7 +8,11 @@ function App() {
   return (
     <>
       <Header/>
-      <h1>Hello Welcome to The GoodBuy!</h1>
+      <main className="py-3">
+        <Container>
+          <h1>Hello Welcome to The GoodBuy!</h1>
+        </Container>
+      </main>
       <Footer/>  
     </>
   );
