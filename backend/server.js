@@ -3,10 +3,13 @@ const express = require('express');
 const dotenv = require('dotenv');
 const colors = require('colors');
 const morgan = require('morgan');
+
+const connectDB = require('./config/db.js')
 const products = require('./data/products.js');
 
 dotenv.config( {path: './config/.env'} );
 
+connectDB();
 const app = express();
 
 
@@ -33,5 +36,5 @@ app.get("/api/products/:id", (req, res) => {
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
-    console.log(`Server Started running in ${process.env.NODE_ENV} mode at http://localhost:${PORT}`.blue.bold)
+    console.log(`Server Started running in ${process.env.NODE_ENV} mode at http://localhost:${PORT}`.yellow.bold.inverse)
 });
