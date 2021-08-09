@@ -4,8 +4,12 @@ const dotenv = require('dotenv');
 const colors = require('colors');
 const morgan = require('morgan');
 
+const {notFound, errorHandler} = require('./middlewares/errorMiddleware')
+
+const productRoutes = require('./routes/productRoutes')
+
 const connectDB = require('./config/db.js')
-const products = require('./data/products.js');
+
 
 dotenv.config( {path: './config/.env'} );
 
@@ -24,14 +28,9 @@ app.get("/", (req, res) => {
     res.send("API in work!")
 })
 
-app.get("/api/products", (req, res) => {
-    res.status(200).json(products)
-})
-
-app.get("/api/products/:id", (req, res) => {
-    const fetchProduct = products.find(p => p._id === req.params.id)
-    res.status(200).json(fetchProduct)
-})
+app.use("/api/products", productRoutes)
+app.use(notFound)
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 4000;
 
