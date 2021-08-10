@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const {notFound, errorHandler} = require('./middlewares/errorMiddleware')
 
 const productRoutes = require('./routes/productRoutes')
+const userRoutes = require('./routes/userRoutes')
 
 const connectDB = require('./config/db.js')
 
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/products", productRoutes)
+app.use("/api/users", userRoutes)
 app.use(notFound)
 app.use(errorHandler)
 
