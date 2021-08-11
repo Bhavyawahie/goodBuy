@@ -1,36 +1,42 @@
-import React, { useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Col, Row} from 'react-bootstrap'
+import {useDispatch, useSelector} from 'react-redux';
+import {listProducts} from '../actions/productActions';
 // import products from "../products"
 import Product from '../components/Product';
-import axios from 'axios';
+import Message from '../components/Message';
+import Loader from '../components/Loader';
 
 const HomeScreen = () => {
-    const [products, setProducts] = useState([])
+    const dispatch = useDispatch()
+    const productList = useSelector(state => state.productList)
+    const {loading, error, products} = productList
 
     useEffect(() => {
-        const getProducts = async () => {
-            const res =  await axios.get("/api/products")
-            setProducts(res.data)
-        }
-        
-        getProducts()
-    }, []);
+        dispatch(listProducts())
+    }, [dispatch]);
+
 
     return (
         <>
             <h2 className="py-3">Latest Products</h2>
-            <Row> {
-                products.map(product => (
-                    <Col sm={12}
-                        md={6}
-                        lg={4}
-                        xl={3}
-                        key={product._id}>
-                        <Product productContent={product} />
-                    </Col>
-                ))
-            } </Row>
-        </>
+            {
+            loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message> : (
+                <Row> {
+                    products.map(product => (
+                        <Col sm={12}
+                            md={6}
+                            lg={4}
+                            xl={3}
+                            key={
+                                product._id
+                        }>
+                            <Product productContent={product}/>
+                        </Col>
+                    ))
+                } </Row>
+            )
+        } </>
     )
 }
 
