@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom'
 import { Row, Col, ListGroup, Image, Card, Button, ListGroupItem, Carousel, FormControl } from 'react-bootstrap'
 import Rating from '../components/Rating'
 import {listProductDetails} from '../actions/productActions'
-import {productDetailsReducer} from '../reducers/productReducers'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 

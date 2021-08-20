@@ -77,7 +77,7 @@ const ProfileScreen = ({ history, location }) => {
                     </Form.Label>
                     <Form.Control type='password' placeholder='Confirm password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
                 </Form.Group>
-                <Button type='submit' variant='secondary'>Update</Button>
+                <Button type='submit' variant='secondary'  className='mt-3'>Update</Button>
             </Form>
             </Col>
             <Col md={9}>
