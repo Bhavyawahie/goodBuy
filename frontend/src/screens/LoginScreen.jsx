@@ -41,11 +41,11 @@ const LoginScreen = ({ history, location }) => {
                 </Form.Group>
                 <Form.Group controlId='password'>
                     <Form.Label>
-                        password 
+                        Password 
                     </Form.Label>
                     <Form.Control type='password' placeholder='Enter password' value={password} onChange={(e) => setPassword(e.target.value)}/>
                 </Form.Group>
-                <Button type='submit' variant='secondary'>Sign In</Button>
+                <Button type='submit' variant='secondary' className='mt-3'>Sign In</Button>
             </Form>
             <Row className="py-3">
                 <Col>
