@@ -33,6 +33,7 @@ app.get("/", (req, res) => {
 app.use("/api/products", productRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/orders", orderRoutes)
+app.get("/api/config/razorpay", (req, res) => res.send(process.env.RAZORPAY_API_KEY))
 app.use(notFound)
 app.use(errorHandler)
 

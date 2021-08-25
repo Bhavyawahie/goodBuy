@@ -1,26 +1,107 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Row, Col , ListGroup, Image, Card} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getOrderDetails } from '../actions/orderActions'
+import axios from 'axios'
+import logo from '../logo.png'
 
+let options
 const OrderScreen = ({match}) => {
+    const getApi = async () => {
+        const {data} = await axios.get('/api/config/razorpay')
+        options = {
+            "key": data 
+        }
+    }
+    getApi()
     const orderId = match.params.id
     const dispatch = useDispatch()
+    // const [sdkReady, setSdkReady] = useState(false)
     const addDecimals = (num) => {
         return (Math.round(num * 100)/100).toFixed(2)
     }
     const orderDetails = useSelector(state => state.orderDetails)
     const { order, loading, error } = orderDetails
-    if(!loading){
+    const orderPay = useSelector(state => state.orderPay)
+    const { loadingPay, successPay } = orderPay
+    if(!loading) {
         order.itemsPrice = addDecimals(order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0))
+        // console.log(options)
     }
 
     useEffect(() => {
-        dispatch(getOrderDetails(orderId))
-    }, [dispatch, orderId])
+        const addRazorpayScript = () => {
+        const script = document.createElement('script')
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+        script.type = 'text/javascript'
+        script.async = true 
+        
+        document.body.appendChild(script)
+        }
+        if (!order || successPay ) {
+            dispatch(getOrderDetails(orderId))
+            } else if (!order.isPaid) {
+            if (!window.Razorpay) {
+                addRazorpayScript()
+            }
+        }    
+    }, [dispatch, orderId, successPay, order])
+
+    const setOptions = () => {
+        return new Promise ((resolve) => {
+            resolve(options = {
+                ...options,
+                amount: order.totalPrice * 100 , //  = INR 1
+                name: 'GoodBuy',
+                description: 'Expert service. Unbeatable price.',
+                image: logo,
+                handler: function(response) {
+                    console.log(response)
+                    options = {
+            ...options,
+            amount: order.totalPrice * 100 , //  = INR 1
+            name: 'GoodBuy',
+            description: 'some description',
+            image: logo,
+            handler: function(response) {
+                console.log(response)
+            },
+            prefill: {
+                name: order.user.name,
+                email: order.user.email
+            },
+            notes: {
+                address: order.shippingAddress.address + ", " + order.shippingAddress.city + ", " + order.shippingAddress.state + ", " + order.shippingAddress.pincode 
+            },
+            theme: {
+                color: '#F9D328',
+                hide_topbar: false
+            }
+        }
+                },
+                prefill: {
+                    name: order.user.name,
+                    email: order.user.email
+                },
+                notes: {
+                    address: order.shippingAddress.address + ", " + order.shippingAddress.city + ", " + order.shippingAddress.state + ", " + order.shippingAddress.pincode 
+                },
+                theme: {
+                    color: '#F9D328',
+                    hide_topbar: false
+                }
+            })
+        })
+    }
+    
+    const openPayModal = async () => {
+        await setOptions()
+        var rzp1 = new window.Razorpay(options);
+        rzp1.open();
+    }
 
 
     return loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message> : <>
@@ -38,7 +119,7 @@ const OrderScreen = ({match}) => {
                             <p>
                             <strong>Email: </strong><a href={`mailto:${order.user.email}`}>{order.user.email}</a>
                             </p>
-                            <p><strong>Address:</strong> {order.shippingAddress.address} ,{order.shippingAddress.city}, {order.shippingAddress.state}, {order.shippingAddress.pincode}</p>
+                            <p><strong>Address:</strong> {order.shippingAddress.address} , {order.shippingAddress.city}, {order.shippingAddress.state}, {order.shippingAddress.pincode}</p>
                             {order.isDelivered ? <Message variant='success'>Delivered on {order.deliveredAt}</Message>: <Message variant='danger'>Not Delivered yet!</Message>}
                         </ListGroup.Item>
                         <ListGroup.Item>
@@ -105,6 +186,12 @@ const OrderScreen = ({match}) => {
                             </ListGroup.Item>
                             <ListGroup.Item className='border-bottom-0'>
                                 {error && <Message variant='danger'>{error}</Message>}
+                            </ListGroup.Item>
+                            <ListGroup.Item className='border-bottom-0'>
+                            {loadingPay && <Loader />}
+                            {/* {!sdkReady ? (<Loader />) : (
+                            )} */}
+                                <Button onClick={openPayModal}>Pay Now!</Button>
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
