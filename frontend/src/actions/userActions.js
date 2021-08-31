@@ -36,9 +36,7 @@ export const logout = () => (dispatch) => {
     dispatch({
         type: USER_LIST_RESET
     })
-    dispatch({
-        type: ORDER_LIST_MY_RESET
-    })
+    document.location.href = `/login`
 }
 
 export const register = (name, email, password) => async (dispatch) => {

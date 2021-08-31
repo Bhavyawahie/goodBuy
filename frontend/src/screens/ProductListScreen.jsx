@@ -24,18 +24,18 @@ const ProductListScreen = ({history, match}) => {
 
     useEffect(() => {
         dispatch({ type: PRODUCT_CREATE_RESET })
-        
         if(userInfo && !userInfo.isAdmin) {
             history.push('/login')
+        } else{
+            if (successCreate) {
+                history.push(`/admin/products/${createdProduct._id}`)
+            } else {
+                dispatch(listProducts())
+            }
         }
 
-        if (successCreate) {
-            history.push(`/admin/products/${createdProduct._id}`)
-        } else {
-            dispatch(listProducts())
-        }
 
-    }, [dispatch, history,  userInfo, successDelete, successCreate, createdProduct])
+    }, [dispatch, history, userInfo, successDelete, successCreate, createdProduct])
 
     const createProductHandler = () => {
         dispatch(createProduct())
