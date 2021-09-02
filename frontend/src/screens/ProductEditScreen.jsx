@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
@@ -17,6 +18,7 @@ const ProductEditScreen = ({ history, match }) => {
     const [category, setCategory] = useState("")
     const [countInStock, setCountInStock] = useState(0)
     const [description, setDescription] = useState("")
+    const [uploading, setUploading] = useState(false)
 
     const dispatch = useDispatch()
     
@@ -25,6 +27,7 @@ const ProductEditScreen = ({ history, match }) => {
     
     const productUpdate = useSelector(state => state.productUpdate)
     const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = productUpdate
+
     useEffect(() => {
         if(successUpdate) {
             dispatch({ type: PRODUCT_UPDATE_RESET })
@@ -35,7 +38,7 @@ const ProductEditScreen = ({ history, match }) => {
             }
             else{
                 setName(product.name)
-                setPrice(product.email)
+                setPrice(product.price)
                 setImage(product.image)
                 setBrand(product.brand)
                 setCategory(product.category)
@@ -45,6 +48,27 @@ const ProductEditScreen = ({ history, match }) => {
         }
     }, [dispatch, product, productId, history, successUpdate])
     
+    const uploadFileHandler = async (e) => {
+        const file = e.target.files[0]
+        const formData = new FormData()
+        formData.append('image', file)
+        setUploading(true)
+        try {
+            const config = {
+                headers: {
+                    'Content-Type' : 'multipart/form-data'
+                }
+            }
+            const { data } = await axios.post(`/api/upload`, formData, config)
+            console.log(data)
+            setImage(data)
+            setUploading(false)
+        } catch (error) {
+            console.log(error.response.data.message)
+            setUploading(false)
+        }
+    }
+
     const submitHandler = (e) => {
         e.preventDefault()
         dispatch(updateProduct({
@@ -55,13 +79,13 @@ const ProductEditScreen = ({ history, match }) => {
             brand,
             category,
             countInStock,
-            description
+            description,
         }))
     } 
     return (
         <> 
             <Link to="/admin/productList" className="btn btn-outline-secondary my-3">
-                <i class="fas fa-chevron-left"></i>
+                <i className="fas fa-chevron-left"></i>
             </Link>
         <FormContainer>
             <h2>Edit Product</h2>
@@ -86,6 +110,9 @@ const ProductEditScreen = ({ history, match }) => {
                         Image URL
                     </Form.Label>
                     <Form.Control type='text' placeholder='Enter image URL' value={image} onChange={(e) => setImage(e.target.value)} className='m-2'/>
+                    <Form.File type="file" id='image-file'className='form-control' custom onChange={uploadFileHandler}>
+                    </Form.File>
+                        { uploading && <Loader/> }
                 </Form.Group>
                 <Form.Group controlId='brand'>
                     <Form.Label>
