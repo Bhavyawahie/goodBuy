@@ -60,27 +60,6 @@ const OrderScreen = ({match}) => {
                 image: logo,
                 handler: function(response) {
                     console.log(response)
-                    options = {
-            ...options,
-            amount: order.totalPrice * 100 , //  = INR 1
-            name: 'GoodBuy',
-            description: 'some description',
-            image: logo,
-            handler: function(response) {
-                console.log(response)
-            },
-            prefill: {
-                name: order.user.name,
-                email: order.user.email
-            },
-            notes: {
-                address: order.shippingAddress.address + ", " + order.shippingAddress.city + ", " + order.shippingAddress.state + ", " + order.shippingAddress.pincode 
-            },
-            theme: {
-                color: '#F9D328',
-                hide_topbar: false
-            }
-        }
                 },
                 prefill: {
                     name: order.user.name,
