@@ -1,7 +1,9 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap';
+import { Route } from 'react-router-dom'
+import { LinkContainer } from 'react-router-bootstrap'
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap'
+import SearchBox from './SearchBox';
 import logo from "../logo.png"
 import { logout } from '../actions/userActions';
 
@@ -25,6 +27,7 @@ const Header = ({history}) => {
                                 className="d-inline-block align-top"/>
                         </Navbar.Brand>
                     </LinkContainer>
+                    <Route render={({history}) => <SearchBox history={history}/> }/>
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ms-auto">
