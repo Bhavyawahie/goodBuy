@@ -15,3 +15,27 @@ h3 {
 .rating span {
   margin: 0.1rem;
 }
+
+
+.carousel-item-next,
+.carousel-item-prev,
+.carousel-item.active {
+  display: flex;
+}
+
+
+.carousel img {
+  width: 65%;
+  display: block;
+  margin:auto;
+}
+.carousel a {
+  margin: 0 auto;
+}
+
+/* @media (max-width: 900px) {
+  .carousel {
+    width:auto;
+    height:auto;
+  }
+} */
