@@ -9,7 +9,7 @@ import axios from 'axios'
 import logo from '../logo.png'
 
 let options
-const OrderScreen = ({match}) => {
+const OrderScreen = ({match, history}) => {
     const getApi = async () => {
         const {data} = await axios.get('/api/config/razorpay')
         options = {
@@ -23,6 +23,8 @@ const OrderScreen = ({match}) => {
     const addDecimals = (num) => {
         return (Math.round(num * 100)/100).toFixed(2)
     }
+    const userLogin = useSelector(state => state.userLogin)
+    const { userInfo } = userLogin
     const orderDetails = useSelector(state => state.orderDetails)
     const { order, loading, error } = orderDetails
     const orderPay = useSelector(state => state.orderPay)
@@ -33,6 +35,9 @@ const OrderScreen = ({match}) => {
     }
 
     useEffect(() => {
+        if(!userInfo) {
+            history.push(`/login`)
+        }
         const addRazorpayScript = () => {
         const script = document.createElement('script')
         script.src = 'https://checkout.razorpay.com/v1/checkout.js'
