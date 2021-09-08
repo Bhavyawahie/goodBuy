@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
 import { Row, Col, ListGroup, Image, Card, Button,  Carousel, FormControl, Form } from 'react-bootstrap'
+import Meta from '../components/Meta'
 import Rating from '../components/Rating'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
@@ -45,13 +46,14 @@ const ProductScreen = ({ history, match }) => {
     }
 
     return (
-        <>
+        <>  
             <Link to="/" className="btn btn-outline-secondary my-3">
                 <i class="fas fa-chevron-left"></i>
             </Link>
             {
             loading ? <Loader/>: error ? <Message>{error}</Message> : (
             <>    
+                <Meta title={product.name}/>
                 <Row className="mb-4">
                     <Col md={5}
                         className="p-5">
