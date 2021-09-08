@@ -37,23 +37,6 @@ const Header = ({history}) => {
                                     {"  "}Cart
                                 </Nav.Link>
                             </LinkContainer>
-                            {userInfo ? (
-                                <NavDropdown title={userInfo.name} id='username'>
-                                    <LinkContainer to='/profile'>
-                                        <NavDropdown.Item>
-                                            Profile
-                                        </NavDropdown.Item>
-                                    </LinkContainer>
-                                    <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
-                                </NavDropdown>
-                            ) : (
-                                <LinkContainer to="/login">
-                                <Nav.Link>
-                                    <i className="fas fa-user"></i>
-                                    {"  "}Sign in
-                                </Nav.Link>
-                            </LinkContainer>
-                            )}
                             {userInfo && userInfo.isAdmin && (
                                 <NavDropdown title='Admin' id='adminMenu'>
                                     <LinkContainer to='/admin/userlist'>
@@ -73,6 +56,23 @@ const Header = ({history}) => {
                                     </LinkContainer>
                                 </NavDropdown>
                             )}    
+                            {userInfo ? (
+                                <NavDropdown title={userInfo.name} id='username'>
+                                    <LinkContainer to='/profile'>
+                                        <NavDropdown.Item>
+                                            Profile
+                                        </NavDropdown.Item>
+                                    </LinkContainer>
+                                    <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+                                </NavDropdown>
+                            ) : (
+                                <LinkContainer to="/login">
+                                <Nav.Link>
+                                    <i className="fas fa-user"></i>
+                                    {"  "}Sign in
+                                </Nav.Link>
+                            </LinkContainer>
+                            )}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
