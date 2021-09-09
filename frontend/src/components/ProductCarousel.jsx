@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React  from 'react'
 import { Link } from 'react-router-dom'
 import { Carousel, Image } from 'react-bootstrap'
 import banner1 from '../banner1.png'
