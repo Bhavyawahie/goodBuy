@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
-import { Row, Col, ListGroup, Image, Card, Button,  Carousel, FormControl, Form } from 'react-bootstrap'
+import { Row, Col, ListGroup, Image, Card, Button, FormControl, Form } from 'react-bootstrap'
 import Meta from '../components/Meta'
 import Rating from '../components/Rating'
 import Loader from '../components/Loader'
