@@ -16,7 +16,7 @@ const SearchBox = ({history}) => {
         <Form onSubmit={submitHandler} className='d-flex mx-4' style={{width: "40%", outline: "none" }}>
         <InputGroup >
             <FormControl type='text' name='q' onChange={(e) => setKeyword(e.target.value)} placeholder='Search Products...'/>
-            <Button type='submit' variant='outline-success' className='p-2'><i class="fas fa-search"></i></Button>
+            <Button type='submit' variant='outline-success' className='p-2'><i className="fas fa-search"></i></Button>
         </InputGroup>
         </Form>
     )
