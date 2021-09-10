@@ -189,6 +189,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
             type: USER_DETAILS_SUCCESS,
             payload: res.data
         })
+        dispatch({ type: USER_DETAILS_RESET })
     } catch (error) {
         dispatch({
             type: USER_UPDATE_FAIL,
