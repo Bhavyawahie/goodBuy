@@ -20,7 +20,7 @@ const ProductScreen = ({ history, match }) => {
     const {loading, error, product} = productDetails
     
     const productReviewCreate = useSelector(state => state.productReviewCreate)  //accessing the redux state through store via reducers
-    const { success: successProductReview, error: errorProductReview } = productReviewCreate
+    const { loading: loadingProductReview, success: successProductReview, error: errorProductReview } = productReviewCreate
     
     const userLogin = useSelector(state => state.userLogin)  //accessing the redux state through store via reducers
     const { userInfo } = userLogin
@@ -29,10 +29,10 @@ const ProductScreen = ({ history, match }) => {
         if(successProductReview){
             setRating(0)
             setComment("") 
-            dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
         }
-        dispatch(listProductDetails(match.params.id))  //action getting dispatched
-    }, [dispatch, match, successProductReview])
+        dispatch(listProductDetails(match.params.id))
+        dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
+    }, [dispatch, match, successProductReview, product._id])
 
     const addTooCartHandler = () => {
         history.push(`/cart/${match.params.id}?qty=${qty}`)
@@ -48,7 +48,7 @@ const ProductScreen = ({ history, match }) => {
     return (
         <>  
             <Link to="/" className="btn btn-outline-secondary my-3">
-                <i class="fas fa-chevron-left"></i>
+                <i className="fas fa-chevron-left"></i>
             </Link>
             {
             loading ? <Loader/>: error ? <Message>{error}</Message> : (
@@ -63,7 +63,7 @@ const ProductScreen = ({ history, match }) => {
                             alt={
                                 product.name
                             }
-                            ClassName="img-fluid"
+                            className="img-fluid"
                             fluid></Image>
                     </Col>
                     <Col md={4}>
@@ -73,22 +73,13 @@ const ProductScreen = ({ history, match }) => {
                                     product.name
                                 }</h2>
                             </ListGroup.Item>
-                            <ListGroup.Item className="py-3 border-0"><Rating value={
-                                        product.rating
-                                    }
-                                    text={
-                                        `${
-                                            product.numReviews
-                                        } reviews`
-                                    }/></ListGroup.Item>
-                            <ListGroup.Item className="py-1.5 border-0">
-                                <h4>₹ {
-                                    product.price
-                                }</h4>
+                            <ListGroup.Item className="py-3 border-0">
+                                <Rating value={product.rating}text={`${product.numReviews} reviews`}/>
                             </ListGroup.Item>
-                            <ListGroup.Item className="py-3">Description: {
-                                product.description
-                            }</ListGroup.Item>
+                            <ListGroup.Item className="py-1.5 border-0">
+                                <h4>₹ {product.price}</h4>
+                            </ListGroup.Item>
+                            <ListGroup.Item className="py-3">Description: {product.description}</ListGroup.Item>
                         </ListGroup>
                     </Col>
                     <Col md={3}
@@ -148,21 +139,18 @@ const ProductScreen = ({ history, match }) => {
                 <Row className="mt-5">
                     <Col md={5}></Col>
                     <Col md={7} className="p-4">
-                        <h4>Reviews</h4>
                         {product.reviews.length === 0 && <Message variant='light'>No reviews</Message>}
                         <ListGroup variant='primary'>
-                            {product.reviews.map( review => (
-                                <ListGroup.Item key={review._id}> 
-                                        <strong>{review.name}</strong> 
-                                        <Rating value={review.rating}/>
-                                        <p>{review.createdAt.substring(0,10)}</p>
-                                        <p>{review.comment}</p>
-                                </ListGroup.Item>
-                            ))}
                             <ListGroup.Item>
                                 <h3>Write a Customer Review</h3>
-                                {errorProductReview && <Message variant='danger'>{errorProductReview}</Message>}
-                                {userInfo ? (
+                                { successProductReview && (
+                                    <Message variant='success'>
+                                        Review submitted successfully
+                                    </Message>)
+                                }
+                                { loadingProductReview && <Loader /> }
+                                { errorProductReview && <Message variant='danger'>{errorProductReview}</Message> }
+                                { userInfo ? (
                                     <Form onSubmit={submitHandler}>
                                         <Form.Group controlId='rating'>
                                             <Form.Label>Rating</Form.Label>
@@ -179,10 +167,19 @@ const ProductScreen = ({ history, match }) => {
                                             <Form.Label>Comment</Form.Label>
                                             <Form.Control as='textarea' row='3' value={comment} onChange={ (e) => setComment(e.target.value)}></Form.Control>
                                         </Form.Group>
-                                        <Button type='submit' variant='primary' className='mt-3'>Submit</Button>
+                                        <Button disabled={loadingProductReview} type='submit' variant='primary' className='my-3'>Submit</Button>
                                     </Form>) : (
                                     <Message variant='primary'> To write a review <Link to='/login'>Sign in!</Link></Message>
                                 )}
+                                <h3>Reviews</h3>
+                                {product.reviews.map( review => (
+                                <ListGroup.Item key={review._id} className='border-0'> 
+                                        <strong>{review.name}</strong> 
+                                        <Rating value={review.rating}/>
+                                        <p>{review.createdAt.substring(0,10)}</p>
+                                        <p>{review.comment}</p>
+                                </ListGroup.Item>
+                            ))}
                             </ListGroup.Item>
                         </ListGroup>
                     </Col>
