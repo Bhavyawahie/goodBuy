@@ -20,6 +20,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
             type: ORDER_CREATE_SUCCESS,
             payload: res.data
         })
+        localStorage.removeItem('cartItems')
     } catch (error) {
         const message = error.response && error.response.data.message ? error.response.data.message : error.message
         if (message === 'Not authorized, token failed') {
