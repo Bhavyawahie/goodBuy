@@ -14,7 +14,7 @@ const uploadRoutes = require('./routes/uploadRoutes')
 const connectDB = require('./config/db.js')
 
 
-dotenv.config( {path: './config/.env'} );
+dotenv.config( {path: './.env'} );
 
 connectDB();
 const app = express();
