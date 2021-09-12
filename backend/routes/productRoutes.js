@@ -18,5 +18,4 @@ router
     .put(protect, admin, updateProduct)
     .delete(protect, admin, deleteProduct)
 
-
 module.exports = router;
