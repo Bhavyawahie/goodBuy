@@ -2,6 +2,9 @@
   "name": "goodbuy",
   "version": "1.0.0",
   "description": "mern shopping cart app",
+  "engines": {
+    "node": "14.15.5"
+  },
   "main": "index.js",
   "scripts": {
     "start": "node backend/server",
