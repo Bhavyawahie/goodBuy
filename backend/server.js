@@ -23,22 +23,26 @@ app.use(express.urlencoded({ extended: true }))
 if(process.env.NODE_ENV === "development") {
     app.use(morgan('dev'))
 }
+
+
 app.use("/api/products", productRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/orders", orderRoutes)
 app.get("/api/config/razorpay", (req, res) => res.send(process.env.RAZORPAY_API_KEY))
 app.use('/uploads', express.static('uploads'))
-app.use(notFound)
-app.use(errorHandler)
-
 if(process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '/frontend/build')))
-    app.get('/*', (req, res) => res.sendFile(path.resolve(__dirname,'frontend', 'build', 'index.html')))
+    app.use(express.static(path.join('frontend/build')))
+    app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html')))
 } else {
     app.get("/", (req, res) => {
         res.send("API in work!")
     })
 }
+app.use(notFound)
+app.use(errorHandler)
+
+
+
 
 const PORT = process.env.PORT || 4000
 
