@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAIL, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DELETE_FAIL, PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_SUCCESS, PRODUCT_CREATE_FAIL, PRODUCT_UPDATE_REQUEST, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAIL, PRODUCT_CREATE_REVIEW_REQUEST, PRODUCT_CREATE_REVIEW_SUCCESS, PRODUCT_CREATE_REVIEW_FAIL} from '../constants/productConstants'
+import { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAIL, PRODUCT_DELETE_REQUEST, PRODUCT_DELETE_SUCCESS, PRODUCT_DELETE_FAIL, PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_SUCCESS, PRODUCT_CREATE_FAIL, PRODUCT_UPDATE_REQUEST, PRODUCT_UPDATE_SUCCESS, PRODUCT_UPDATE_FAIL, PRODUCT_CREATE_REVIEW_REQUEST, PRODUCT_CREATE_REVIEW_SUCCESS, PRODUCT_CREATE_REVIEW_FAIL, PRODUCT_IMAGE_UPLOAD_FAIL, PRODUCT_IMAGE_UPLOAD_REQUEST, PRODUCT_IMAGE_UPLOAD_SUCCESS} from '../constants/productConstants'
 import { PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS, PRODUCT_DETAILS_FAIL} from '../constants/productConstants'
 import { logout } from './userActions'
 
@@ -93,6 +93,39 @@ export const createProduct = () => async (dispatch, getState) => {
         }
         dispatch({
             type: PRODUCT_CREATE_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const uploadProductImage = (productId ,image) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: PRODUCT_IMAGE_UPLOAD_REQUEST
+        })
+        const {userLogin: {userInfo}} = getState()
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+        const reader = new FileReader()
+        reader.readAsDataURL(image)
+        reader.onloadend = async () => {
+            const res = await axios.post(`/api/products/${productId}/image/upload`, JSON.stringify({image: reader.result}) ,config)
+            dispatch({
+                type: PRODUCT_IMAGE_UPLOAD_SUCCESS,
+                payload: res.data
+            })
+        }
+    } catch (error) {
+        const message = error.message && error.response.data.message ? error.response.data.message : error.message
+        if (message === 'Not authorized, token failed') {
+            dispatch(logout())
+        }
+        dispatch({
+            type: PRODUCT_IMAGE_UPLOAD_FAIL,
             payload: message
         })
     }
