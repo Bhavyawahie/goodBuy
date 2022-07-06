@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "mern shopping cart app",
   "engines": {
-    "node": "14.15.5",
-    "npm": "7.20.0"
+    "node": "14.15.5"
   },
   "main": "index.js",
   "scripts": {

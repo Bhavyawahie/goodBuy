@@ -42,7 +42,7 @@ export const logout = () => (dispatch) => {
     dispatch({ 
         type: ORDER_LIST_MY_RESET
     })
-    document.location.href = `/login`
+    document.location.href = `/#`
 }
 
 export const register = (name, email, password) => async (dispatch) => {
