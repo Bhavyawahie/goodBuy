@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
-const Product = require('../models/productModel')
+const Product = require('../models/productModel');
+const { cloudinary } = require('../utils/cloudinarySetup');
 
 
 //  @desc    Fetch all products
@@ -70,6 +71,30 @@ const createProduct = asyncHandler(async (req, res) => {
     res.status(201).json(createdProduct)
 })
 
+//  @desc    Upload an image to cloudinary via backend for product updation
+//  @route   POST /api/products/:id/image/upload
+//  @access  Private
+
+const uploadProductImage = asyncHandler(async (req, res) => {
+    const productId = req.params.id
+    const image = req.body.image
+    if(image){
+        const uploadResponse = await cloudinary.uploader.upload(image, {
+            upload_preset: 'goodBuyStore',
+            public_id: `IMG-${productId}-${Date.now()}`
+        })
+        if(uploadResponse){
+            res.status(200).json({
+                imageURL: uploadResponse.url
+            })
+        } 
+        else{
+            res.status(400)
+            throw new Error('Upload a correct Image file')
+        }
+    }
+})
+
 
 //  @desc    Update a product
 //  @route   PUT /api/products/:id
@@ -82,7 +107,7 @@ const updateProduct = asyncHandler(async (req, res) => {
         product.name = name
         product.price = price
         product.description = description
-        product.image = image
+        product.image = uploadResponse.url
         product.brand = brand
         product.category = category
         product.countInStock = countInStock
@@ -132,6 +157,7 @@ module.exports = {
     getProductById,
     deleteProduct,
     createProduct,
+    uploadProductImage,
     updateProduct,
     createProductReview
 }
