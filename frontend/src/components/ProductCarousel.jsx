@@ -8,7 +8,7 @@ import banner3 from '../banner3.png'
 
 const ProductCarousel = () => {
     return (
-        <Carousel pause='hover' touch className='d-flex justify-content-center' variant='dark' xs={12}>
+        <Carousel pause='hover' touch className='d-flex justify-content-center' xs={12}>
                 <Carousel.Item>
                     <Link to={`/product/612d4a45165dbe19a870ba33`}>
                         <Image src={banner1} alt={"apple airpods"} fluid />
@@ -20,7 +20,7 @@ const ProductCarousel = () => {
                     </Link>
                 </Carousel.Item>
                 <Carousel.Item>
-                    <Link to={`/product/612e55c9c3a1907324b6614b`}>
+                    <Link to={`/product/6133a7d2e6c77b5600b1440c`}>
                         <Image src={banner2} alt={"bata hawai chappal"} fluid/>
                     </Link>
                 </Carousel.Item>
