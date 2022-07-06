@@ -33,9 +33,13 @@ h3 {
   margin: 0 auto;
 }
 
-/* @media (max-width: 900px) {
+.card-img {
+  aspect-ratio: 1/1;
+}
+
+@media (max-width: 900px) {
   .carousel {
     width:auto;
     height:auto;
   }
-} */
+}
