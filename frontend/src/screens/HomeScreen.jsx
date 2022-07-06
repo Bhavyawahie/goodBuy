@@ -40,9 +40,7 @@ const HomeScreen = ({match}) => {
                                 md={6}
                                 lg={4}
                                 xl={3}
-                                key={
-                                    product._id
-                            }>
+                                key={product._id}>
                                 <Product productContent={product}/>
                             </Col>
                         ))
