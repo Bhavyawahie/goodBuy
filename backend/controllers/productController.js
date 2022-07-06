@@ -84,9 +84,7 @@ const uploadProductImage = asyncHandler(async (req, res) => {
             public_id: `IMG-${productId}-${Date.now()}`
         })
         if(uploadResponse){
-            res.status(200).json({
-                imageURL: uploadResponse.url
-            })
+            res.status(200).json(uploadResponse.url)
         } 
         else{
             res.status(400)
@@ -107,7 +105,7 @@ const updateProduct = asyncHandler(async (req, res) => {
         product.name = name
         product.price = price
         product.description = description
-        product.image = uploadResponse.url
+        product.image = image
         product.brand = brand
         product.category = category
         product.countInStock = countInStock
