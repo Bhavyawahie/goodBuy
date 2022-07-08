@@ -2,7 +2,6 @@ import React from 'react'
 import { Container,Image, Row, Col, ListGroup } from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 import logo_white_new from '../logo_white_new.png'
-import upi from '../upi.png'
 
 const Footer = () => {
     return (
@@ -46,7 +45,7 @@ const Footer = () => {
                 </Row>
                 <Row className='mt-3'>
                     <Col lg={12} md={12} sm={12} xs={12} className='text-justify text-center text-muted'>
-                            Copyright Ⓒ GoodBuy 2022
+                            {`Copyright © GoodBuy ${new Date().getFullYear()}`} 
                     </Col>
                 </Row>
             </Container>
