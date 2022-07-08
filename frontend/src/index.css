@@ -77,4 +77,25 @@ footer{
   .footer-container {
     padding-left: 40px; 
   }
+  .payment-provider-asset-container{
+    display: block;
+  }
+  .payment-provider-asset-container img {
+    transform: translateX(-1.25rem);
+  }
 }
+
+@media (min-width:768px ) and (max-width: 992px) {
+  .payment-provider-asset-container img {
+    transform: translateX(32rem) translateY(-7.5rem);
+
+  }
+}
+@media (min-width: 1400px) {
+  .payment-provider-asset-container img {
+    height: 7rem;
+    transform: translateX(-4rem) translateY(1rem);
+
+  }
+}
+
