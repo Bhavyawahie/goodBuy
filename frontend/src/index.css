@@ -43,3 +43,38 @@ h3 {
     height:auto;
   }
 }
+
+footer{
+  color: white
+}
+
+.footer-logo{
+  transform: translateX(-1.25rem);
+}
+
+.footer-section-list{
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.footer-section-list a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.571);
+}
+
+
+.socials {
+  display: flex;
+}
+
+.socials li {
+  margin-top: 1rem;
+  margin-right: 1.5rem;
+  font-size: 2rem;
+}
+
+@media (max-width: 575px){
+  .footer-container {
+    padding-left: 40px; 
+  }
+}
