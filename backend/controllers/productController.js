@@ -8,7 +8,7 @@ const { cloudinary } = require('../utils/cloudinarySetup');
 //  @access  Public
 
 const getProducts = asyncHandler(async (req, res) => {
-    const pageSize = 8 //(No. of products per page)
+    const pageSize = 16 //(No. of products per page)
     const page = Number(req.query.pageNumber) || 1
     const keyword = req.query.keyword ? {
         name: {
