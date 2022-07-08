@@ -39,7 +39,7 @@ const Footer = () => {
                             
                         </ul>
                     </Col>
-                    <Col xs={6} md={3} lg={2} xl={2} className='pt-4 d-flex justify-content-center' >
+                    <Col xs={6} md={3} lg={2} xl={2} className='pt-4 d-flex justify-content-center payment-provider-asset-container' >
                         <a href="https://razorpay.com/" target="_blank"><img referrerpolicy="origin" src = "https://badges.razorpay.com/badge-light.png " style = {{height: "83px",borderRadius: "7px"}} alt = "Razorpay | Payment Gateway | Neobank"/></a>
                     </Col>
                 </Row>
