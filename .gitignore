@@ -13,6 +13,7 @@ build
 
 # misc
 .env
+env.json
 .cache
 .DS_Store
 .env.local

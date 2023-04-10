@@ -1,0 +1,26 @@
+service: goodBuyAPI
+# app and org for use with dashboard.serverless.com
+app: goodbuy
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 512
+
+# you can overwrite defaults here
+  stage: production
+  region: ap-south-1
+
+functions:
+  handler:
+    handler: handler.handler
+    events:
+      - http: ANY /{proxy+}
+      - http: ANY / 
+    environment: ${file(env.json)}
+
+      
