@@ -1,6 +1,4 @@
-const path = require('path')
 const dotenv = require('dotenv');
-const mongoose = require('mongoose');
 const colors = require('colors');
 const users = require('./data/users.js');
 const products = require('./data/products.js');
@@ -9,7 +7,7 @@ const Product = require('./models/productModel');
 const Order = require('./models/orderModel');
 const connectDB = require('./config/db')
 
-dotenv.config( {path: './config/.env'} );
+dotenv.config( {path: './.env'} );
 
 connectDB();
 
