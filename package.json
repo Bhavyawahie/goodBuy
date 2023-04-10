@@ -22,7 +22,9 @@
     "express-async-handler": "^1.1.4",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^5.13.5",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "serverless-http": "^3.2.0",
+    "serverless-plugin-include-dependencies": "^5.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
