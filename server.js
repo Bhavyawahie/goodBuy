@@ -11,7 +11,7 @@ const orderRoutes = require('./routes/orderRoutes')
 const connectDB = require('./config/db.js')
 
 
-dotenv.config( {path: './.env'} )
+dotenv.config( {path: '/.env'} )
 
 connectDB()
 const app = express()
