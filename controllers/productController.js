@@ -10,6 +10,7 @@ const { cloudinary } = require('../utils/cloudinarySetup');
 const getProducts = asyncHandler(async (req, res) => {
     const pageSize = 16 //(No. of products per page)
     const page = Number(req.query.pageNumber) || 1
+    const category = decodeURIComponent(req.query.category)
     const keyword = req.query.keyword ? {
         name: {
             $regex: req.query.keyword,
@@ -17,10 +18,18 @@ const getProducts = asyncHandler(async (req, res) => {
         }
     } : {}
 
-    const count = await Product.countDocuments ({...keyword})
-    const products = await Product.find({...keyword}).limit(pageSize).skip(pageSize * (page-1))
-    res.status(200).json({products, page, pages: Math.ceil(count/pageSize)})
+    if(category) {
+        const count = await Product.countDocuments({category})
+        const products = await Product.find({category}).limit(pageSize).skip(pageSize * (page-1))
+        res.status(200).json({products, page, pages: Math.ceil(count/pageSize)})
+    } else {
+        const count = await Product.countDocuments ({...keyword})
+        const products = await Product.find({...keyword}).limit(pageSize).skip(pageSize * (page-1))
+        res.status(200).json({products, page, pages: Math.ceil(count/pageSize)})
+    }
+
 })
+
 
 //  @desc    Fetch a product
 //  @route   GET /api/products/:id
@@ -157,5 +166,5 @@ module.exports = {
     createProduct,
     uploadProductImage,
     updateProduct,
-    createProductReview
+    createProductReview,
 }
